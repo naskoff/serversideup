@@ -45,8 +45,10 @@ class Post
     #[ORM\Column(type: Types::DATETIMETZ_IMMUTABLE, nullable: true)]
     protected ?DateTimeImmutable $deletedAt = null;
 
-    public function __construct(User $author)
+    public function __construct(User $author, string $slug)
     {
+        $this->slug = $slug;
+
         $this->author = $author;
 
         $this->comments = new ArrayCollection();
