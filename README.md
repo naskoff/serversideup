@@ -1,2 +1,2 @@
-# serversideup
-Serversideup Docker Image Implementation with Symfony
+# ServerSideUp
+ServerSideUp Docker Image Implementation with Symfony
