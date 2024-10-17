@@ -1,5 +1,19 @@
 
 services:
+  php:
+    build:
+      context: .
+    ports:
+      - "80:8080"
+      - "443:8443"
+    environment:
+      SSL_MODE: "full"
+      PHP_OPCACHE_ENABLE: 1
+      SSL_CERTIFICATE_FILE: "/etc/ssl/private/serversideup.local.pem"
+      SSL_PRIVATE_KEY_FILE: "/etc/ssl/private/serversideup.local-key.pem"
+      DATABASE_URL: "postgresql://app:!ChangeMe!@database:5432/app?serverVersion=16&charset=utf8"
+    volumes:
+      - ./certs/:/etc/ssl/private/
 ###> doctrine/doctrine-bundle ###
   database:
     image: postgres:${POSTGRES_VERSION:-16}-alpine

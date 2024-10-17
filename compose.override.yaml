@@ -1,5 +1,13 @@
 
 services:
+  php:
+    build:
+      target: dev
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    volumes:
+      - .:/var/www/html
 ###> symfony/mailer ###
   mailer:
     image: axllent/mailpit
