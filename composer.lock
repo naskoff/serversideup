@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e09ef019636e2bdc268b73680bb81111",
+    "content-hash": "468311a1cc34f6fce3cc5f637518aeb6",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -9062,6 +9062,56 @@
                 }
             ],
             "time": "2020-09-28T06:39:44+00:00"
+        },
+        {
+            "name": "softavis/phpunit-check-coverage",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/softavis/phpunit-check-coverage.git",
+                "reference": "b8edd0680e0a504c4720fbff43cfcc9c17241779"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/softavis/phpunit-check-coverage/zipball/b8edd0680e0a504c4720fbff43cfcc9c17241779",
+                "reference": "b8edd0680e0a504c4720fbff43cfcc9c17241779",
+                "shasum": ""
+            },
+            "require": {
+                "ext-xml": "*",
+                "php": "^7.4 || ^8.0"
+            },
+            "bin": [
+                "bin/phpunit-check-coverage"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Zlatin Hristov",
+                    "email": "zlatin.hristov@softavis.com"
+                },
+                {
+                    "name": "Softavis Ltd",
+                    "homepage": "https://www.softavis.com"
+                }
+            ],
+            "description": "Simple script for tests phpunit coverage",
+            "keywords": [
+                "HOOK",
+                "coverage",
+                "phpunit",
+                "pipeline",
+                "threshold"
+            ],
+            "support": {
+                "issues": "https://github.com/softavis/phpunit-check-coverage/issues",
+                "source": "https://github.com/softavis/phpunit-check-coverage/tree/0.1.0"
+            },
+            "time": "2024-10-16T20:53:51+00:00"
         },
         {
             "name": "symfony/browser-kit",
