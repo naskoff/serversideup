@@ -2,7 +2,7 @@ FROM serversideup/php:8.2-fpm-nginx-alpine AS base
 
 USER root
 
-RUN install-php-extensions intl
+RUN install-php-extensions apcu intl
 
 FROM base AS dev
 
@@ -11,7 +11,8 @@ ARG GID
 
 USER root
 
-RUN docker-php-serversideup-set-id www-data $UID:$GID  && \
+RUN install-php-extensions pcov xdebug && \
+    docker-php-serversideup-set-id www-data $UID:$GID  && \
     docker-php-serversideup-set-file-permissions --owner $UID:$GID --service nginx
 
 USER www-data
