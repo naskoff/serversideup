@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security;
 
 use App\Repository\UserRepository;
@@ -14,6 +16,9 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ApiKeyAuthenticator extends AbstractAuthenticator
 {
     private const HEADER_NAME = 'x-auth-token';
@@ -29,14 +34,14 @@ class ApiKeyAuthenticator extends AbstractAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-         $apiToken = $request->headers->get('X-AUTH-TOKEN');
+         $apiToken = $request->headers->get(self::HEADER_NAME);
          if (null === $apiToken) {
             throw new CustomUserMessageAuthenticationException('No API token provided');
          }
 
          $user = $this->userRepository->findOneBy(['token' => $apiToken]);
          if (null === $user) {
-             throw new CustomUserMessageAuthenticationException('Token not found');
+             throw new CustomUserMessageAuthenticationException("Token {$apiToken} not found");
          }
 
         return new SelfValidatingPassport(

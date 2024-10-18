@@ -73,11 +73,12 @@ final class CommentController extends AbstractController
 
         $errors = $this->validator->validate($data, $constraints);
         if (0 < $errors->count()) {
-            $response = array_map(fn(ConstraintViolationInterface $constraintViolation) => [
-                $constraintViolation->getPropertyPath() => $constraintViolation->getMessage(),
-            ], (array)$errors);
+            $formattedErrors = [];
+            foreach ($errors as $error) {
+                $formattedErrors[$error->getPropertyPath()] = $error->getMessage();
+            }
 
-            return $this->json($response, Response::HTTP_BAD_REQUEST);
+            return $this->json($formattedErrors, Response::HTTP_BAD_REQUEST);
         }
 
         $post = $this->postRepository->findOneBy(['id' => $data['post_id'], 'author' => $user]);
@@ -124,11 +125,12 @@ final class CommentController extends AbstractController
 
         $errors = $this->validator->validate($data, $constraints);
         if (0 < $errors->count()) {
-            $response = array_map(fn(ConstraintViolationInterface $constraintViolation) => [
-                $constraintViolation->getPropertyPath() => $constraintViolation->getMessage(),
-            ], (array)$errors);
+            $formattedErrors = [];
+            foreach ($errors as $error) {
+                $formattedErrors[$error->getPropertyPath()] = $error->getMessage();
+            }
 
-            return $this->json($response, Response::HTTP_BAD_REQUEST);
+            return $this->json($formattedErrors, Response::HTTP_BAD_REQUEST);
         }
 
         $post = $this->postRepository->findOneBy(['id' => $data['post_id'], 'author' => $user]);

@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Factory;
 
 use App\Entity\Comment;
 use DateTimeImmutable;
-use Zenstruck\Foundry\Persistence\PersistentObjectFactory;
+use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 
 /**
- * @extends PersistentObjectFactory<Comment>
+ * @extends PersistentProxyObjectFactory<Comment>
  */
-final class CommentFactory extends PersistentObjectFactory
+final class CommentFactory extends PersistentProxyObjectFactory
 {
     public static function class(): string
     {

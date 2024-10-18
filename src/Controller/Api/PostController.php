@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
-use App\Entity\Comment;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Repository\PostRepository;
@@ -18,6 +17,8 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\String\ByteString;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\Validator\Constraints\Collection;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -76,17 +77,24 @@ final class PostController extends AbstractController
         $data = $request->toArray();
 
         $constraints = new Collection([
-            'title' => [],
-            'content' => [],
+            'title' => [
+                new NotBlank(),
+                new Length(min: 3, max: 255),
+            ],
+            'content' => [
+                new NotBlank(),
+                new Length(min: 3, max: 1000),
+            ],
         ]);
 
         $errors = $this->validator->validate($data, $constraints);
         if (0 < $errors->count()) {
-            $response = array_map(fn(ConstraintViolationInterface $constraintViolation) => [
-                $constraintViolation->getPropertyPath() => $constraintViolation->getMessage(),
-            ], (array)$errors);
+            $formattedErrors = [];
+            foreach ($errors as $error) {
+                $formattedErrors[$error->getPropertyPath()] = $error->getMessage();
+            }
 
-            return $this->json($response, Response::HTTP_BAD_REQUEST);
+            return $this->json($formattedErrors, Response::HTTP_BAD_REQUEST);
         }
 
         $slugger = new AsciiSlugger();
@@ -128,17 +136,24 @@ final class PostController extends AbstractController
         }
 
         $constraints = new Collection([
-            'title' => [],
-            'content' => [],
+            'title' => [
+                new NotBlank(),
+                new Length(min: 3, max: 255),
+            ],
+            'content' => [
+                new NotBlank(),
+                new Length(min: 3, max: 1000),
+            ],
         ]);
 
         $errors = $this->validator->validate($data, $constraints);
         if (0 < $errors->count()) {
-            $response = array_map(fn(ConstraintViolationInterface $constraintViolation) => [
-                $constraintViolation->getPropertyPath() => $constraintViolation->getMessage(),
-            ], (array)$errors);
+            $formattedErrors = [];
+            foreach ($errors as $error) {
+                $formattedErrors[$error->getPropertyPath()] = $error->getMessage();
+            }
 
-            return $this->json($response, Response::HTTP_BAD_REQUEST);
+            return $this->json($formattedErrors, Response::HTTP_BAD_REQUEST);
         }
 
         $post

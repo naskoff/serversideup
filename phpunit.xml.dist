@@ -27,6 +27,10 @@
         <include>
             <directory suffix=".php">src</directory>
         </include>
+        <report>
+            <clover outputFile="./coverage.xml"/>
+            <html outputDirectory="./coverage-html"/>
+        </report>
     </coverage>
 
     <listeners>
@@ -34,5 +38,6 @@
     </listeners>
 
     <extensions>
+        <extension class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension" />
     </extensions>
 </phpunit>

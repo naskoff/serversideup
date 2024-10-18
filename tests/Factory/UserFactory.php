@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Factory;
 
 use App\Entity\User;
-use Zenstruck\Foundry\Persistence\PersistentObjectFactory;
+use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 
 /**
- * @extends PersistentObjectFactory<User>
+ * @extends PersistentProxyObjectFactory<User>
  */
-final class UserFactory extends PersistentObjectFactory
+final class UserFactory extends PersistentProxyObjectFactory
 {
     public static function class(): string
     {

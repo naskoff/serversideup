@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-class CommentFixtures extends Fixture
+/**
+ * @codeCoverageIgnore
+ */
+final class CommentFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
