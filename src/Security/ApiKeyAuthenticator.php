@@ -34,15 +34,15 @@ class ApiKeyAuthenticator extends AbstractAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-         $apiToken = $request->headers->get(self::HEADER_NAME);
-         if (null === $apiToken) {
+        $apiToken = $request->headers->get(self::HEADER_NAME);
+        if (null === $apiToken) {
             throw new CustomUserMessageAuthenticationException('No API token provided');
-         }
+        }
 
-         $user = $this->userRepository->findOneBy(['token' => $apiToken]);
-         if (null === $user) {
-             throw new CustomUserMessageAuthenticationException("Token {$apiToken} not found");
-         }
+        $user = $this->userRepository->findOneBy(['token' => $apiToken]);
+        if (null === $user) {
+            throw new CustomUserMessageAuthenticationException("Token {$apiToken} not found");
+        }
 
         return new SelfValidatingPassport(
             userBadge: new UserBadge(

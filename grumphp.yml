@@ -1,0 +1,22 @@
+grumphp:
+    git_hook_variables:
+      EXEC_GRUMPHP_COMMAND: ['docker', 'compose', 'run', '-T', '--rm', '--no-deps', 'php']
+    parallel:
+        enabled: true
+        max_workers: 32
+    tasks:
+        clover_coverage:
+            clover_file: ./coverage.xml
+            minimum_level: 30
+        git_commit_message:
+            skip_on_merge_commit: true
+            matchers:
+                - ^(LIVE-[0-9]{1,}\s|Merge|hotfix)
+        infection:
+            threads: 6
+            min_msi: 30
+        phpcsfixer:
+          config: .php-cs-fixer.dist.php
+          diff: false
+        phpstan: ~
+        phpunitbridge: ~

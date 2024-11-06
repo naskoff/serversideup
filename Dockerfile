@@ -2,7 +2,8 @@ FROM serversideup/php:8.2-fpm-nginx-alpine AS base
 
 USER root
 
-RUN install-php-extensions apcu intl
+RUN apk add --no-cache git && \
+    install-php-extensions apcu intl
 
 FROM base AS dev
 

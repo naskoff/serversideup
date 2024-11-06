@@ -23,6 +23,9 @@ abstract class ApplicationTestCase extends WebTestCase
         $this->client = self::createClient();
     }
 
+    /**
+     * @return array<mixed>
+     */
     protected function getJsonResponse(): array
     {
         /** @var string $content */

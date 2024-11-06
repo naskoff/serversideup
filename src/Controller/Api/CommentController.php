@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Validator\Constraints\Collection;
-use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/api/comments')]
@@ -27,8 +26,7 @@ final class CommentController extends AbstractController
         private readonly PostRepository $postRepository,
         private readonly CommentRepository $commentRepository,
         private readonly EntityManagerInterface $entityManager,
-    )
-    {
+    ) {
     }
 
     #[Route(methods: [Request::METHOD_GET])]
@@ -36,7 +34,7 @@ final class CommentController extends AbstractController
     {
         $comments = $this->commentRepository->findBy(['author' => $user]);
 
-        $response = array_map(fn(Comment $comment) => [
+        $response = array_map(fn (Comment $comment) => [
             'id' => $comment->getId(),
             'content' => $comment->getContent(),
             'created_at' => $comment->getCreatedAt()->format('Y-m-d H:i:s'),

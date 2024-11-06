@@ -19,7 +19,6 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/api/posts')]
@@ -29,8 +28,7 @@ final class PostController extends AbstractController
         private readonly ValidatorInterface $validator,
         private readonly PostRepository $postRepository,
         private readonly EntityManagerInterface $entityManager,
-    )
-    {
+    ) {
     }
 
     #[Route(methods: [Request::METHOD_GET])]
@@ -38,7 +36,7 @@ final class PostController extends AbstractController
     {
         $posts = $this->postRepository->findBy(['author' => $user]);
 
-        $response = array_map(fn(Post $post) => [
+        $response = array_map(fn (Post $post) => [
             'id' => $post->getId(),
             'title' => $post->getTitle(),
             'content' => $post->getContent(),

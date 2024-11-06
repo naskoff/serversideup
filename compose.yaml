@@ -29,6 +29,7 @@ services:
       start_period: 60s
     volumes:
       - database_data:/var/lib/postgresql/data:rw
+      - ./create-db.sh:/docker-entrypoint-initdb.d/init-database.sh
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./docker/db/data:/var/lib/postgresql/data:rw
 ###< doctrine/doctrine-bundle ###

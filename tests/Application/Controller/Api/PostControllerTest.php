@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\Controller\Api;
 
+use App\Entity\Post;
+use App\Entity\User;
 use App\Tests\Application\ApplicationTestCase;
 use App\Tests\Factory\PostFactory;
 use App\Tests\Story\PostStory;
 use App\Tests\Story\UserStory;
-use Zenstruck\Foundry\Persistence\Proxy;
 
 final class PostControllerTest extends ApplicationTestCase
 {
-    private Proxy $user;
-    private Proxy $post;
+    private User $user;
+    private Post $post;
     private const API_URL = '/api/posts';
     private const EXPECTED_POST_RESPONSE = [
         'id' => '@integer@',
@@ -27,8 +28,13 @@ final class PostControllerTest extends ApplicationTestCase
     {
         parent::setUp();
 
-        $this->user = UserStory::get('main-author');
-        $this->post = PostStory::get('main-post');
+        /** @var User $user */
+        $user = UserStory::get('main-author');
+        $this->user = $user;
+
+        /** @var Post $post */
+        $post = PostStory::get('main-post');
+        $this->post = $post;
     }
 
     public function testGetListPostWorks(): void
@@ -97,13 +103,15 @@ final class PostControllerTest extends ApplicationTestCase
 
     /**
      * @dataProvider provideInvalidData
+     *
+     * @param array<mixed> $data
+     * @param array<mixed> $expectedResponse
      */
     public function testCreatePostWithInvalidDataReturnErrors(
         array $data = [],
         array $expectedResponse = [],
         int $statusCode = 400,
-    ): void
-    {
+    ): void {
         $this->client->jsonRequest('POST', self::API_URL, $data, [
             'HTTP_X-AUTH-TOKEN' => $this->user->getToken(),
         ]);
@@ -152,13 +160,15 @@ final class PostControllerTest extends ApplicationTestCase
 
     /**
      * @dataProvider provideInvalidData
+     *
+     * @param array<mixed> $data
+     * @param array<mixed> $expectedResponse
      */
     public function testUpdatePostWithInvalidDataReturnErrors(
         array $data = [],
         array $expectedResponse = [],
         int $statusCode = 400,
-    ): void
-    {
+    ): void {
         $this->client->jsonRequest('PUT', self::API_URL.'/'.$this->post->getId(), $data, [
             'HTTP_X-AUTH-TOKEN' => $this->user->getToken(),
         ]);
@@ -186,6 +196,9 @@ final class PostControllerTest extends ApplicationTestCase
         $this->assertMatchesPattern(['code' => 404, 'message' => 'Project not found'], $this->getJsonResponse());
     }
 
+    /**
+     * @return array<string, array<mixed>>
+     */
     public function provideInvalidData(): iterable
     {
         yield 'empty body' => [
@@ -193,7 +206,7 @@ final class PostControllerTest extends ApplicationTestCase
             [
                 '[title]' => 'This field is missing.',
                 '[content]' => 'This field is missing.',
-            ]
+            ],
         ];
 
         yield 'nullable content' => [
@@ -204,7 +217,7 @@ final class PostControllerTest extends ApplicationTestCase
             [
                 '[title]' => 'This value should not be blank.',
                 '[content]' => 'This value should not be blank.',
-            ]
+            ],
         ];
 
         yield 'empty content' => [
@@ -215,7 +228,7 @@ final class PostControllerTest extends ApplicationTestCase
             [
                 '[title]' => 'This value is too short. It should have 3 characters or more.',
                 '[content]' => 'This value is too short. It should have 3 characters or more.',
-            ]
+            ],
         ];
 
         yield 'min length body content' => [
@@ -226,7 +239,7 @@ final class PostControllerTest extends ApplicationTestCase
             [
                 '[title]' => 'This value is too short. It should have 3 characters or more.',
                 '[content]' => 'This value is too short. It should have 3 characters or more.',
-            ]
+            ],
         ];
 
         yield 'max length body content' => [
@@ -237,7 +250,7 @@ final class PostControllerTest extends ApplicationTestCase
             [
                 '[title]' => 'This value is too long. It should have 255 characters or less.',
                 '[content]' => 'This value is too long. It should have 1000 characters or less.',
-            ]
+            ],
         ];
     }
 }

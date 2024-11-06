@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\CommentRepository;
-use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: "comments")]
+#[ORM\Table(name: 'comments')]
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class Comment
@@ -19,31 +18,31 @@ class Comment
     #[ORM\Column]
     protected int $id;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "comments")]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'comments')]
     protected User $author;
 
-    #[ORM\ManyToOne(targetEntity: Post::class, inversedBy: "comments")]
+    #[ORM\ManyToOne(targetEntity: Post::class, inversedBy: 'comments')]
     protected Post $post;
 
     #[ORM\Column(type: Types::TEXT)]
     protected string $content;
 
     #[ORM\Column(type: Types::DATETIMETZ_IMMUTABLE)]
-    protected DateTimeImmutable $createdAt;
+    protected \DateTimeImmutable $createdAt;
 
     #[ORM\Column(type: Types::DATETIMETZ_IMMUTABLE)]
-    protected DateTimeImmutable $updatedAt;
+    protected \DateTimeImmutable $updatedAt;
 
     #[ORM\Column(type: Types::DATETIMETZ_IMMUTABLE, nullable: true)]
-    protected ?DateTimeImmutable $deletedAt = null;
+    protected ?\DateTimeImmutable $deletedAt = null;
 
     public function __construct(Post $post, User $author)
     {
         $this->post = $post;
         $this->author = $author;
 
-        $this->createdAt = new DateTimeImmutable();
-        $this->updatedAt = new DateTimeImmutable();
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
     }
 
     public function __toString(): string
@@ -54,7 +53,7 @@ class Comment
     #[ORM\PreUpdate]
     public function onPreUpdate(): void
     {
-        $this->updatedAt = new DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
     }
 
     public function getId(): int
@@ -74,36 +73,36 @@ class Comment
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeImmutable $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getDeletedAt(): ?DateTimeImmutable
+    public function getDeletedAt(): ?\DateTimeImmutable
     {
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(?DateTimeImmutable $deletedAt): static
+    public function setDeletedAt(?\DateTimeImmutable $deletedAt): static
     {
         $this->deletedAt = $deletedAt;
 

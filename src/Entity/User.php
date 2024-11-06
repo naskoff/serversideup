@@ -39,10 +39,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     protected ?string $token = null;
 
+    /**
+     * @var Collection<int, Post>
+     */
     #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'user', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['createdAt' => 'DESC'])]
     protected Collection $posts;
 
+    /**
+     * @var Collection<int, Comment>
+     */
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'user', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['createdAt' => 'DESC'])]
     protected Collection $comments;

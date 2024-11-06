@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\PostRepository;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: "posts")]
+#[ORM\Table(name: 'posts')]
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class Post
@@ -21,7 +20,7 @@ class Post
     #[ORM\Column]
     protected int $id;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "posts")]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'posts')]
     #[ORM\JoinColumn(nullable: false)]
     protected User $author;
 
@@ -34,18 +33,21 @@ class Post
     #[ORM\Column(type: Types::TEXT)]
     protected string $content;
 
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: "post", cascade: ['persist', 'remove'], orphanRemoval: true)]
-    #[ORM\OrderBy(["createdAt" => "DESC"])]
+    /**
+     * @var Collection<int, Comment>
+     */
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'post', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['createdAt' => 'DESC'])]
     protected Collection $comments;
 
     #[ORM\Column(type: Types::DATETIMETZ_IMMUTABLE)]
-    protected DateTimeImmutable $createdAt;
+    protected \DateTimeImmutable $createdAt;
 
     #[ORM\Column(type: Types::DATETIMETZ_IMMUTABLE)]
-    protected DateTimeImmutable $updatedAt;
+    protected \DateTimeImmutable $updatedAt;
 
     #[ORM\Column(type: Types::DATETIMETZ_IMMUTABLE, nullable: true)]
-    protected ?DateTimeImmutable $deletedAt = null;
+    protected ?\DateTimeImmutable $deletedAt = null;
 
     public function __construct(User $author, string $slug)
     {
@@ -55,8 +57,8 @@ class Post
 
         $this->comments = new ArrayCollection();
 
-        $this->createdAt = new DateTimeImmutable();
-        $this->updatedAt = new DateTimeImmutable();
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
     }
 
     public function __toString(): string
@@ -67,7 +69,7 @@ class Post
     #[ORM\PreUpdate]
     public function onPreUpdate(): void
     {
-        $this->updatedAt = new DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
     }
 
     public function getId(): int
@@ -111,36 +113,36 @@ class Post
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeImmutable $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getDeletedAt(): ?DateTimeImmutable
+    public function getDeletedAt(): ?\DateTimeImmutable
     {
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(?DateTimeImmutable $deletedAt): static
+    public function setDeletedAt(?\DateTimeImmutable $deletedAt): static
     {
         $this->deletedAt = $deletedAt;
 
