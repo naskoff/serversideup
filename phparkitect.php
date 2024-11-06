@@ -8,7 +8,7 @@ use Arkitect\Expression\ForClasses\HaveNameMatching;
 use Arkitect\Expression\ForClasses\ResideInOneOfTheseNamespaces;
 use Arkitect\Rules\Rule;
 
-/**
+/*
  * @codeCoverageIgnore
  */
 return static function (Config $config): void {

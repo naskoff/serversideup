@@ -11,7 +11,7 @@ grumphp:
         git_commit_message:
             skip_on_merge_commit: true
             matchers:
-                - ^(LIVE-[0-9]{1,}\s|Merge|hotfix)
+              Must contain JIRA issue number: /JIRA-\d+/
         infection:
             threads: 6
             min_msi: 30
